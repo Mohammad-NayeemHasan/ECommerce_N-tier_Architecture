@@ -1,0 +1,39 @@
+﻿@model Bulky.Models.Models.Category
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="container">
+    <form method="post">
+        <div class="row pt-4">
+            <div class="col-12 mb-3">
+                <h2 class="text-primary">Edit Category</h2>
+                <hr />
+            </div>
+
+            <!-- Hidden Id -->
+            <input asp-for="Id" type="hidden" />
+
+            <!-- Category Name -->
+            <div class="col-12 mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Display Order -->
+            <div class="col-12 mb-3">
+                <label asp-for="DisplayOrder" class="form-label"></label>
+                <input asp-for="DisplayOrder" class="form-control" />
+                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-12 text-end">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
