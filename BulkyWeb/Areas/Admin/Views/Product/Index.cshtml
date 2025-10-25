@@ -1,7 +1,72 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
+﻿@using Bulky.Models.Models
 
-<h1>Index</h1>
+@model List<Product>
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Product List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Product" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add New
+            </a>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-primary">
+            <tr>
+                <th> Name</th>
+                <th>Description</th>
+                <th> Author</th>
+                <th>ISBN</th>
+                <th> List Price</th>
+                <th>Price</th>
+                <th>Price50</th>
+                <th>Price100</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th style="width: 20%;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>@obj.Title</td>
+                    <td>@obj.Description</td>
+                    <td>@obj.Author</td>
+                    <td>@obj.ISBN</td>
+                    <td>@obj.ListPrice</td>
+                    <td>@obj.Price</td>
+                    <td>@obj.Price50</td>
+                    <td>@obj.Price100</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(obj.ImageUrl))
+                        {
+                            <img src="@obj.ImageUrl" alt="@obj.Title" style="max-width: 100px; max-height: 100px;" />
+                        }
+                        else
+                        {
+                            <span>No Image</span>
+                        }
+                    </td>
+                    <td>@obj.Category.Name</td>
+                    <td>
+                        <div class="btn-group w-100" role="group">
+                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger ms-1">
+                                <i class="bi bi-trash3-fill"></i> Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 
