@@ -2,17 +2,17 @@
 
 @model ProductVM
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Upsert";
 }
 
 <div class="container">
     <form method="post" enctype="multipart/form-data">
         <div class="row pt-4">
             <div class="col-12 mb-3">
-                <h2 class="text-primary">Create New Product</h2>
+                <h2 class="text-primary">@(Model.PVM.Id !=0 ? "Update Product" : "Create New Product")</h2>
                 <hr />
             </div>
-
+            <input asp-for="PVM.Id" type="hidden" />
             <div class="col-md-6 mb-3">
                 <label asp-for="PVM.Title" class="form-label"></label>
                 <input asp-for="PVM.Title" class="form-control" />
@@ -63,8 +63,8 @@
             </div>
             <div class="col-md-6 mb-3">
                 <label asp-for="PVM.ImageUrl" class="form-label">Upload Image</label>
-                <input type="file" asp-for="PVM.ImageUrl" class="form-control" />
-                <span asp-validation-for="PVM.ImageUrl" class="text-danger"></span>
+                <input type="file" class="form-control" />
+                
             </div>
 
             <div class="col-md-6 mb-3">
