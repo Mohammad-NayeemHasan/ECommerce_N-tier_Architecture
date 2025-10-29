@@ -1,4 +1,4 @@
-html {
+/*html {
   font-size: 14px;
 }
 
@@ -28,4 +28,64 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}*/
+/* ===== Custom Colors ===== */
+.text-teal {
+    color: #009688 !important;
+}
+
+.btn-teal {
+    background-color: #009688;
+    color: #fff;
+}
+
+    .btn-teal:hover {
+        background-color: #00796b;
+        color: #fff;
+    }
+
+/* ===== Navbar ===== */
+.navbar {
+    transition: background 0.3s ease-in-out;
+}
+
+    .navbar.scrolled {
+        background: rgba(255, 255, 255, 0.9) !important;
+        backdrop-filter: blur(8px);
+    }
+
+/* ===== Hero Section ===== */
+.hero-section {
+    position: relative;
+    height: 90vh;
+    background: url('/images/books-bg.jpg') center/cover no-repeat;
+}
+
+    .hero-section .overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-section .content {
+        position: relative;
+        z-index: 2;
+        max-width: 700px;
+        padding: 0 20px;
+    }
+
+/* ===== Footer ===== */
+footer {
+    background-color: #f8f9fa;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
 }
