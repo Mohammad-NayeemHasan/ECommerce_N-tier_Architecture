@@ -1,6 +1,9 @@
 ﻿@using Bulky.Models.Models
-
 @model List<Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
 
 <div class="container">
     <div class="row pt-4">
@@ -8,65 +11,84 @@
             <h2 class="text-primary">Product List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Product" asp-action="Create" class="btn btn-primary">
+            <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Add New
             </a>
         </div>
     </div>
 
-    <table class="table table-bordered table-striped mt-3">
-        <thead class="table-primary">
+    <hr />
+
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <table class="table table-bordered table-striped mt-3 align-middle">
+        <thead class="table-primary text-center">
             <tr>
-                <th> Name</th>
+                <th>Name</th>
                 <th>Description</th>
-                <th> Author</th>
+                <th>Author</th>
                 <th>ISBN</th>
-                <th> List Price</th>
+                <th>List Price</th>
                 <th>Price</th>
-                <th>Price50</th>
-                <th>Price100</th>
+                <th>Price 50</th>
+                <th>Price 100</th>
                 <th>Image</th>
                 <th>Category</th>
-                <th style="width: 20%;">Actions</th>
+                <th style="width: 15%;">Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var obj in Model)
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td>@obj.Title</td>
+                        <td>@obj.Description</td>
+                        <td>@obj.Author</td>
+                        <td>@obj.ISBN</td>
+                        <td>@obj.ListPrice</td>
+                        <td>@obj.Price</td>
+                        <td>@obj.Price50</td>
+                        <td>@obj.Price100</td>
+                        <td class="text-center">
+                            @if (!string.IsNullOrEmpty(obj.ImageUrl))
+                            {
+                                <img src="@obj.ImageUrl" alt="@obj.Title" class="img-thumbnail" style="max-width:80px; max-height:80px;" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">No Image</span>
+                            }
+                        </td>
+                        <td>@obj.Category?.Name</td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger ms-1">
+                                    <i class="bi bi-trash3-fill"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@obj.Title</td>
-                    <td>@obj.Description</td>
-                    <td>@obj.Author</td>
-                    <td>@obj.ISBN</td>
-                    <td>@obj.ListPrice</td>
-                    <td>@obj.Price</td>
-                    <td>@obj.Price50</td>
-                    <td>@obj.Price100</td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(obj.ImageUrl))
-                        {
-                            <img src="@obj.ImageUrl" alt="@obj.Title" style="max-width: 100px; max-height: 100px;" />
-                        }
-                        else
-                        {
-                            <span>No Image</span>
-                        }
-                    </td>
-                    <td>@obj.Category.Name</td>
-                    <td>
-                        <div class="btn-group w-100" role="group">
-                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-warning">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </a>
-                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger ms-1">
-                                <i class="bi bi-trash3-fill"></i> Delete
-                            </a>
-                        </div>
+                    <td colspan="11" class="text-center text-muted py-3">
+                        <i class="bi bi-info-circle"></i> No products found.
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-
-

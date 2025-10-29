@@ -1,6 +1,6 @@
 ﻿@using Bulky.Models.Models
-
 @model ProductVM
+
 @{
     ViewData["Title"] = "Upsert";
 }
@@ -9,75 +9,97 @@
     <form method="post" enctype="multipart/form-data">
         <div class="row pt-4">
             <div class="col-12 mb-3">
-                <h2 class="text-primary">@(Model.PVM.Id !=0 ? "Update Product" : "Create New Product")</h2>
+                <h2 class="text-primary">
+                    @(Model.PVM.Id != 0 ? "Update Product" : "Create New Product")
+                </h2>
                 <hr />
             </div>
+
             <input asp-for="PVM.Id" type="hidden" />
+
+            <!-- 🔹 Title -->
             <div class="col-md-6 mb-3">
                 <label asp-for="PVM.Title" class="form-label"></label>
                 <input asp-for="PVM.Title" class="form-control" />
                 <span asp-validation-for="PVM.Title" class="text-danger"></span>
             </div>
 
+            <!-- 🔹 Description -->
             <div class="col-md-6 mb-3">
-                @* input tag helper *@
                 <label asp-for="PVM.Description" class="form-label"></label>
-                <input asp-for="PVM.Description" class="form-control" />
+                <textarea asp-for="PVM.Description" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="PVM.Description" class="text-danger"></span>
             </div>
+
+            <!-- 🔹 Author -->
             <div class="col-md-6 mb-3">
-                @* input tag helper *@
                 <label asp-for="PVM.Author" class="form-label"></label>
                 <input asp-for="PVM.Author" class="form-control" />
                 <span asp-validation-for="PVM.Author" class="text-danger"></span>
             </div>
+
+            <!-- 🔹 ISBN -->
             <div class="col-md-6 mb-3">
-                @* input tag helper *@
                 <label asp-for="PVM.ISBN" class="form-label"></label>
                 <input asp-for="PVM.ISBN" class="form-control" />
                 <span asp-validation-for="PVM.ISBN" class="text-danger"></span>
             </div>
-            <div class="col-md-6 mb-3">
-                @* input tag helper *@
+
+            <!-- 🔹 Prices -->
+            <div class="col-md-3 mb-3">
                 <label asp-for="PVM.ListPrice" class="form-label"></label>
-                <input type="number" asp-for="PVM.ListPrice" class="form-control" />
+                <input asp-for="PVM.ListPrice" type="number" class="form-control" />
                 <span asp-validation-for="PVM.ListPrice" class="text-danger"></span>
             </div>
-            <div class="col-md-6 mb-3">
-                @* input tag helper *@
+            <div class="col-md-3 mb-3">
                 <label asp-for="PVM.Price" class="form-label"></label>
-                <input type="number" asp-for="PVM.Price" class="form-control" />
+                <input asp-for="PVM.Price" type="number" class="form-control" />
                 <span asp-validation-for="PVM.Price" class="text-danger"></span>
             </div>
-            <div class="col-md-6 mb-3">
-                @* input tag helper *@
+            <div class="col-md-3 mb-3">
                 <label asp-for="PVM.Price50" class="form-label"></label>
-                <input type="number" asp-for="PVM.Price50" class="form-control" />
+                <input asp-for="PVM.Price50" type="number" class="form-control" />
                 <span asp-validation-for="PVM.Price50" class="text-danger"></span>
             </div>
-            <div class="col-md-6 mb-3">
-                @* input tag helper *@
+            <div class="col-md-3 mb-3">
                 <label asp-for="PVM.Price100" class="form-label"></label>
-                <input type="number" asp-for="PVM.Price100" class="form-control" />
+                <input asp-for="PVM.Price100" type="number" class="form-control" />
                 <span asp-validation-for="PVM.Price100" class="text-danger"></span>
             </div>
+
+            <!-- 🔹 Image Upload + Preview -->
             <div class="col-md-6 mb-3">
-                <label asp-for="PVM.ImageUrl" class="form-label">Upload Image</label>
-                <input type="file" class="form-control" />
-                
+                <label class="form-label">Upload Image</label>
+                <input type="file" name="file" class="form-control" />
+                @if (!string.IsNullOrEmpty(Model.PVM.ImageUrl))
+                {
+                    <div class="mt-2">
+                        <img src="@Model.PVM.ImageUrl" alt="@Model.PVM.Title"
+                             style="max-width: 150px; max-height: 150px;" class="img-thumbnail" />
+                    </div>
+                }
             </div>
 
+            <!-- 🔹 Category Dropdown -->
             <div class="col-md-6 mb-3">
                 <label asp-for="PVM.CategoryId" class="form-label">Category</label>
-                <select asp-for="@Model.PVM.CategoryId" asp-items="@(Model.CategoryList)" class="form-select">
+                <select asp-for="PVM.CategoryId" asp-items="Model.CategoryList" class="form-select">
                     <option value="">-- Select Category --</option>
                 </select>
                 <span asp-validation-for="PVM.CategoryId" class="text-danger"></span>
             </div>
+
+            <!-- 🔹 Buttons -->
             <div class="col-12 text-end">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a>
+                <button type="submit" class="btn btn-primary">
+                    @(Model.PVM.Id != 0 ? "Update" : "Create")
+                </button>
+                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
