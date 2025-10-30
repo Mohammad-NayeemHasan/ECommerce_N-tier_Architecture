@@ -21,7 +21,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Product> objProductList = _unitOfWork.Product
-                .GetAllProductsWithCategory().ToList();
+                .GetAll(includeProperties: "Category").ToList();
 
             return View(objProductList);
         }
@@ -217,11 +217,51 @@ namespace BulkyWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", product.ImageUrl ?? "");
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
             _unitOfWork.Product.Remove(product);
             _unitOfWork.Save();
             TempData["success"] = "Product Deleted Successfully";
             return RedirectToAction("Index");
         }
+        #region API CALLS
+        // 🔹 Get all products (API)
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+            return Json(new { data = productList });
+        }
+        //[HttpDelete]
+        //public IActionResult Delete(int? id)
+        //{
+        //    if (id == null || id == 0)
+        //        return Json(new { success = false, message = "Invalid Product Id" });
+
+        //    // Product get from database
+        //    var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
+        //    if (productToBeDeleted == null)
+        //    {
+        //        return Json(new { success = false, message = "Error While Deleting" });
+        //    }
+
+        //    // Delete old image from wwwroot/images/products folder
+        //    var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", productToBeDeleted.ImageUrl ?? "");
+        //    if (System.IO.File.Exists(oldImagePath))
+        //    {
+        //        System.IO.File.Delete(oldImagePath);
+        //    }
+
+        //    // Delete product from database
+        //    _unitOfWork.Product.Remove(productToBeDeleted);
+        //    _unitOfWork.Save();
+
+        //    return Json(new { success = true, message = "Product Deleted Successfully" });
+        //}
+
+        #endregion
     }
 }

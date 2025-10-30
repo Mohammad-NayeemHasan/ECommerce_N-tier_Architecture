@@ -18,11 +18,8 @@ namespace Bulky.DataAccess.Repository
             _db = db;
         }
 
-        // In your repository
-        public IEnumerable<Product> GetAllProductsWithCategory()
-        {
-            return _db.Products.Include(p => p.Category).ToList();
-        }
+        
+        
 
 
         public void Update(Product product)
