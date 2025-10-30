@@ -1,0 +1,70 @@
+﻿@using Bulky.Models.Models
+@model Product
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/product-details.css" />
+}
+
+<div class="product-container">
+    <div class="header">
+        <h1 class="title">@Model.Title</h1>
+        <p class="author">by @Model.Author</p>
+    </div>
+
+    <div class="back-btn mb-3">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">
+            BACK TO HOME
+        </a>
+    </div>
+
+    <div class="content d-flex gap-4">
+        <div class="left flex-shrink-0">
+            <div class="image-box border rounded p-2" style="width: 300px; height: 400px; display: flex; align-items: center; justify-content: center;">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="@Model.Title"
+                         style="max-width:100%; max-height:100%; border-radius:8px;" />
+                }
+                else
+                {
+                    <p class="text-muted">500 × 600 (No Image)</p>
+                }
+            </div>
+        </div>
+
+        <div class="right flex-grow-1">
+            <span class="badge bg-primary mb-2">@Model.Category?.Name</span>
+            <p><strong>ISBN:</strong> @Model.ISBN</p>
+            <p><strong>List Price:</strong> <span class="strike">@Model.ListPrice.ToString("C")</span></p>
+
+            <div class="pricing my-3">
+                <h4>Quantity Based Price</h4>
+                <div class="price-row d-flex justify-content-between fw-bold">
+                    <div>1–50</div>
+                    <div>51–100</div>
+                    <div>100+</div>
+                </div>
+                <div class="price-row d-flex justify-content-between">
+                    <div>@Model.Price.ToString("C")</div>
+                    <div>@Model.Price50?.ToString("C")</div>
+                    <div>@Model.Price100?.ToString("C")</div>
+                </div>
+            </div>
+
+            <p class="desc"><strong>Description:</strong> @Model.Description</p>
+
+            <form method="post" asp-action="AddToCart" class="mt-3">
+                <div class="count-box mb-3">
+                    <label for="count" class="form-label">Count</label>
+                    <input type="number" id="count" name="count" value="1" min="1" class="form-control" style="width:100px;">
+                </div>
+
+                <input type="hidden" name="productId" value="@Model.Id" />
+
+                <button type="submit" class="btn btn-success">
+                    ADD TO CART (COMING SOON...)
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
