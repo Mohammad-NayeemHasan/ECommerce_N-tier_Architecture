@@ -20,34 +20,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
             return View(objProductList);
         }
-        public IActionResult Create()
-        {
-            var ProductVM = new ProductVM()
-            {
-                PVM = new Product(),
-                CategoryList = _unitOfWork.categoryRepo.GetAll().Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                })
-            };
-            
-           // ViewBag.CategoryList = categoryList;
-           //diversion
-           ViewData["CategoryList"] = ProductVM.CategoryList;
-            return View(ProductVM);
-        }
-        [HttpPost]
-        public IActionResult Create(Product Product)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Add(Product);
-                _unitOfWork.Save();
-                TempData["success"] = "Product Created Successfully";
-            }
-            return RedirectToAction("Index");
-        }
+       
+     
         public IActionResult UpSert( int? id)  // Upsert means (update + insert)
         {
             var ProductVM = new ProductVM()
@@ -78,7 +52,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(pvm);
+               // _unitOfWork.Product.Add(pvm);
                 _unitOfWork.Save();
                 TempData["success"] = "Product Created Successfully";
             }
